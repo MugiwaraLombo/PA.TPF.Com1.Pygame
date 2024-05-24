@@ -61,9 +61,9 @@ Durante el juego, puedes usar las siguientes teclas:
 
 - Flecha izquierda: Mueve la pieza a la izquierda.
 - Flecha derecha: Mueve la pieza a la derecha.
-- Flecha abajo: Mueve la pieza hacia abajo.
+- Flecha abajo: Mueve la pieza hacia abajo hasta impactar.
 - Flecha arriba: Rota la pieza.
-- Espacio: Deja caer la pieza hasta el fondo.
+- Espacio: Guarda la pieza para usarla luego. (si ya hay una pieza guardada la intercambia por la actual)
 - P: Pausa el juego.
 
 # Programacion Avanzada - Trabajo Practico Final - Comision 1
