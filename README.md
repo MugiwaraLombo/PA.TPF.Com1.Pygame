@@ -69,4 +69,4 @@ Durante el juego, puedes usar las siguientes teclas:
 # Programacion Avanzada - Trabajo Practico Final - Comision 1
 - Tema : Pygame
 - Proyecto : Tetris
-- Grupo 4 : Kevin Lommazi, Thomas Lombardo y Matias Ezequiel Lovato.
+- Grupo 4 : Kevin Lomazzi, Thomas Lombardo y Matias Ezequiel Lovato.
