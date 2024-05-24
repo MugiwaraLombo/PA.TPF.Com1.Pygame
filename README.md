@@ -66,6 +66,6 @@ Durante el juego, puedes usar las siguientes teclas:
 - Espacio: Deja caer la pieza hasta el fondo.
 - P: Pausa el juego.
 
-# PA.TPF.Com1.Pygame
+# Programacion Avanzada.Trabajo Practico Final.Comision 1.Tema : Pygame.Proyecto : Tetris
 
 Kevin Lommazi, Thomas Lombardo y Matias Ezequiel Lovato.
