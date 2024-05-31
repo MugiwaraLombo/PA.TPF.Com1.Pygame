@@ -25,9 +25,9 @@ Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funci
 - `draw_score`: Muestra la puntuación actual.
 - `show_start_screen`: Muestra la pantalla de inicio.
 - `show_config_screen`: Muestra la pantalla de configuraciones.
-- `apply_settings`: funcion para el fullscreen. ** Funcion a remover, genera bugs en la pantalla al activarlo **
-- `change_backgrounds`: ** Hace falta implementar la logica para cambiar el fondo del juego **
-- `change_keys`: ** Hace falta implementar la logica para cambiar las teclas del juego **
+- `apply_settings`: funcion para el fullscreen. *Funcion a remover, genera bugs en la pantalla al activarlo*
+- `change_backgrounds`: *Hace falta implementar la logica para cambiar el fondo del juego*
+- `change_keys`: *Hace falta implementar la logica para cambiar las teclas del juego*
 - `handle_events`: Maneja los eventos del teclado.
 - `update_board`: Actualiza el tablero después de que una pieza se ha colocado.
 - `clear_lines`: Limpia una linea cuando esta se completa.
@@ -81,7 +81,4 @@ Durante el juego, puedes usar las siguientes teclas:
 - Proyecto : Tetris
 - Grupo 4 : Javier Lopez Acuña, Thomas Lombardo y Matias Ezequiel Lovato.
 <<<<<<< HEAD
-- ** Cooparticipacion de Kevin Lomazzi **
-=======
-- Cooparticipacion de Kevin Lomazzi
->>>>>>> 6da03e02d2bcb5f22983cc1a0ea125e3ae5bf3fa
+- *Cooparticipacion de Kevin Lomazzi*
