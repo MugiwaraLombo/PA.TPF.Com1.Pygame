@@ -80,4 +80,8 @@ Durante el juego, puedes usar las siguientes teclas:
 - Tema : Pygame
 - Proyecto : Tetris
 - Grupo 4 : Javier Lopez Acuña, Thomas Lombardo y Matias Ezequiel Lovato.
+<<<<<<< HEAD
 - ** Cooparticipacion de Kevin Lomazzi **
+=======
+- Cooparticipacion de Kevin Lomazzi
+>>>>>>> 6da03e02d2bcb5f22983cc1a0ea125e3ae5bf3fa
