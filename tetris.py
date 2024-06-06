@@ -26,7 +26,6 @@ class Tetris:
         ]
 
         self.config_buttons = [
-            Button("Pantalla Completa", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 60)),
             Button("Cambiar Fondo", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 30)),
             Button("Cambiar Teclas", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)),
             Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 30))
@@ -82,16 +81,7 @@ class Tetris:
         self.game_over = False
 
     def create_piece(self):
-        shapes = [
-            [[1, 1, 1, 1]],#I
-            [[1, 1], [1, 1]],#O
-            [[0, 1, 1], [1, 1, 0]],#S
-            [[1, 1, 0], [0, 1, 1]],#Z
-            [[1, 0, 0], [1, 1, 1]],#L
-            [[0, 0, 1], [1, 1, 1]],#J
-            [[0, 1, 0], [1, 1, 1]]#T
-        ]
-        shape = random.choice(shapes)
+        shape = random.choice(SHAPES)
         color = random.choice([WHITE, BLACK, (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 255, 255)])
         piece = Piece(shape, color)
         piece.x = BOARD_WIDTH // 2 - len(shape[0]) // 2
@@ -147,6 +137,8 @@ class Tetris:
                         quit()
 
             self.screen.fill(GRAY)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
             title_font = pygame.font.Font(None, 48)
             title_text = title_font.render("Tetris", True, WHITE)
             self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
@@ -167,16 +159,15 @@ class Tetris:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = event.pos
                     if self.config_buttons[0].is_clicked(mouse_pos):
-                        self.settings["fullscreen"] = not self.settings["fullscreen"]
-                        self.apply_settings()
-                    elif self.config_buttons[1].is_clicked(mouse_pos):
                         self.change_background()
-                    elif self.config_buttons[2].is_clicked(mouse_pos):
+                    elif self.config_buttons[1].is_clicked(mouse_pos):
                         self.change_keys()
-                    elif self.config_buttons[3].is_clicked(mouse_pos):
+                    elif self.config_buttons[2].is_clicked(mouse_pos):
                         running = False
 
             self.screen.fill(BLACK)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
             title_font = pygame.font.Font(None, 48)
             title_text = title_font.render("Configuraciones", True, WHITE)
             self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
@@ -185,14 +176,6 @@ class Tetris:
                 button.draw(self.screen)
 
             pygame.display.flip()
-
-    def apply_settings(self):
-        self.save_settings()
-        if self.settings["fullscreen"]:
-            self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
-        else:
-            self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.load_background()
 
     def change_background(self):
         # Implementar lógica para cambiar el fondo del juego
@@ -306,6 +289,8 @@ class Tetris:
                         quit()
 
             self.screen.fill(BLACK)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
             title_font = pygame.font.Font(None, 48)
             title_text = title_font.render("Tetris Pausado", True, WHITE)
             self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
@@ -317,6 +302,8 @@ class Tetris:
 
     def show_game_over_screen(self):
         self.screen.fill(BLACK)
+        if self.bg_image:
+            self.screen.blit(self.bg_image, (0, 0))
         font = pygame.font.Font(None, 36)
         game_over_text = font.render(f"Game Over. Score: {self.score}", True, WHITE)
         self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2))
@@ -324,6 +311,6 @@ class Tetris:
         self.save_scores()
 
         pygame.display.flip()
-        pygame.time.wait(3000)
+        pygame.time.wait(5000)
 
         self.show_start_screen()

@@ -25,7 +25,6 @@ Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funci
 - `draw_score`: Muestra la puntuación actual.
 - `show_start_screen`: Muestra la pantalla de inicio.
 - `show_config_screen`: Muestra la pantalla de configuraciones.
-- `apply_settings`: funcion para el fullscreen. *Funcion a remover, genera bugs en la pantalla al activarlo*
 - `change_backgrounds`: *Hace falta implementar la logica para cambiar el fondo del juego*
 - `change_keys`: *Hace falta implementar la logica para cambiar las teclas del juego*
 - `handle_events`: Maneja los eventos del teclado.

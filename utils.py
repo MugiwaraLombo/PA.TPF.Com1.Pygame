@@ -20,3 +20,14 @@ SCREEN_HEIGHT = 500
 
 # Tamaño del bloque
 BLOCK_SIZE = min(SCREEN_WIDTH // BOARD_WIDTH, SCREEN_HEIGHT // BOARD_HEIGHT)
+
+#Piezas del juego
+SHAPES = [
+            [[1, 1, 1, 1]],#I
+            [[1, 1], [1, 1]],#O
+            [[0, 1, 1], [1, 1, 0]],#S
+            [[1, 1, 0], [0, 1, 1]],#Z
+            [[1, 0, 0], [1, 1, 1]],#L
+            [[0, 0, 1], [1, 1, 1]],#J
+            [[0, 1, 0], [1, 1, 1]]#T
+        ]
