@@ -10,25 +10,23 @@ class Tetris:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("Tetris")
+        pygame.display.set_caption("Proyecto: TETRIS")
         self.clock = pygame.time.Clock()
         self.load_settings()
-        self.load_scores()
-        self.reset_game()
         self.paused = False
         self.bg_image = None
         self.load_background()
 
         self.start_buttons = [
-            Button("Iniciar Juego", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 30)),
+            Button("Iniciar Juego", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)),
             Button("Configuraciones", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)),
-            Button("Salir del Juego", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 30))
+            Button("Salir del Juego", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50))
         ]
 
         self.config_buttons = [
-            Button("Cambiar Fondo", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 30)),
+            Button("Cambiar Fondo", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)),
             Button("Cambiar Teclas", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)),
-            Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 30))
+            Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50))
         ]
 
     def load_settings(self):
@@ -61,17 +59,6 @@ class Tetris:
         if background_path and os.path.exists(background_path):
             self.bg_image = pygame.image.load(background_path)
 
-    def save_scores(self):
-        with open(SCORES_FILE, "w") as file:
-            json.dump(self.top_scores, file)
-
-    def load_scores(self):
-        if os.path.exists(SCORES_FILE):
-            with open(SCORES_FILE, "r") as file:
-                self.top_scores = json.load(file)
-        else:
-            self.top_scores = []
-
     def reset_game(self):
         self.board = [[0] * BOARD_WIDTH for _ in range(BOARD_HEIGHT)]
         self.current_piece = self.create_piece()
@@ -92,27 +79,33 @@ class Tetris:
         for y, row in enumerate(self.board):
             for x, col in enumerate(row):
                 if col:
-                    pygame.draw.rect(self.screen, GRAY, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
-                    pygame.draw.rect(self.screen, WHITE, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
+                    pygame.draw.rect(self.screen, WHITE, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                    pygame.draw.rect(self.screen, GRAY, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_next_pieces(self):
         for i, piece in enumerate(self.next_pieces):
             for y, row in enumerate(piece.shape):
                 for x, col in enumerate(row):
                     if col:
-                        pygame.draw.rect(self.screen, piece.color, (SCREEN_WIDTH - 80 + x * BLOCK_SIZE, 50 + i * 100 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
-                        pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 80 + x * BLOCK_SIZE, 50 + i * 100 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
+                        font = pygame.font.Font(None, 24)
+                        next_pieces_text = font.render("Next Pieces:", True, WHITE)
+                        self.screen.blit(next_pieces_text, (SCREEN_WIDTH - 100, 40))
+                        pygame.draw.rect(self.screen, piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                        pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_hold_piece(self):
         if self.hold_piece:
             for y, row in enumerate(self.hold_piece.shape):
                 for x, col in enumerate(row):
                     if col:
-                        pygame.draw.rect(self.screen, self.hold_piece.color, (SCREEN_WIDTH - 80 + x * BLOCK_SIZE, 300 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
-                        pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 80 + x * BLOCK_SIZE, 300 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
+                        font = pygame.font.Font(None, 24)
+                        hold_pieces_text = font.render("Hold Piece:", True, WHITE)
+                        self.screen.blit(hold_pieces_text, (SCREEN_WIDTH - 100, 300))
+                        pygame.draw.rect(self.screen, self.hold_piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
+                        pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_score(self):
-        font = pygame.font.Font(None, 36)
+        font = pygame.font.Font(None, 24)
         score_text = font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_text, (SCREEN_WIDTH - 100, 400))
 
@@ -122,7 +115,6 @@ class Tetris:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.save_scores()
                     pygame.quit()
                     quit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -132,7 +124,6 @@ class Tetris:
                     elif self.start_buttons[1].is_clicked(mouse_pos):
                         self.show_config_screen()
                     elif self.start_buttons[2].is_clicked(mouse_pos):
-                        self.save_scores()
                         pygame.quit()
                         quit()
 
@@ -140,8 +131,8 @@ class Tetris:
             if self.bg_image:
                 self.screen.blit(self.bg_image, (0, 0))
             title_font = pygame.font.Font(None, 48)
-            title_text = title_font.render("Tetris", True, WHITE)
-            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
+            title_text = title_font.render("Proyecto: TETRIS", True, WHITE)
+            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 6))
 
             for button in self.start_buttons:
                 button.draw(self.screen)
@@ -153,7 +144,6 @@ class Tetris:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.save_scores()
                     pygame.quit()
                     quit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -170,7 +160,7 @@ class Tetris:
                 self.screen.blit(self.bg_image, (0, 0))
             title_font = pygame.font.Font(None, 48)
             title_text = title_font.render("Configuraciones", True, WHITE)
-            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 4))
+            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 6))
 
             for button in self.config_buttons:
                 button.draw(self.screen)
@@ -188,7 +178,6 @@ class Tetris:
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.save_scores()
                 pygame.quit()
                 quit()
             elif event.type == pygame.KEYDOWN:
@@ -270,7 +259,6 @@ class Tetris:
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.save_scores()
                     pygame.quit()
                     quit()
                 elif event.type == pygame.KEYDOWN and event.key == self.settings["key_bindings"]["pause"]:
@@ -284,7 +272,6 @@ class Tetris:
                     elif self.start_buttons[1].is_clicked(mouse_pos):
                         self.show_config_screen()
                     elif self.start_buttons[2].is_clicked(mouse_pos):
-                        self.save_scores()
                         pygame.quit()
                         quit()
 
@@ -304,13 +291,14 @@ class Tetris:
         self.screen.fill(BLACK)
         if self.bg_image:
             self.screen.blit(self.bg_image, (0, 0))
-        font = pygame.font.Font(None, 36)
-        game_over_text = font.render(f"Game Over. Score: {self.score}", True, WHITE)
-        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 2))
-
-        self.save_scores()
+        font = pygame.font.Font(None, 48)
+        game_over_text = font.render("GAME OVER", True, WHITE)
+        self.screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 4 ))
+        font_score = pygame.font.Font(None, 36)
+        score_text = font_score.render(f"Your score: {self.score}", True, WHITE)
+        self.screen.blit(score_text, (SCREEN_WIDTH // 2 - score_text.get_width() // 2, SCREEN_HEIGHT // 2))
 
         pygame.display.flip()
         pygame.time.wait(5000)
 
-        self.show_start_screen()
+        self.run()

@@ -12,7 +12,7 @@ GRAY = (128, 128, 128)
 
 # Dimensiones del tablero
 BOARD_WIDTH = 10
-BOARD_HEIGHT = 25
+BOARD_HEIGHT = 20
 
 # Tamaño de la ventana del juego
 SCREEN_WIDTH = 400

@@ -15,8 +15,6 @@ Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funci
 - `load_settings`: Carga las configuraciones del juego importadas desde utils.py.
 - `save_settings`: Guarda las configuraciones del juego.
 - `load_background`: Carga el fondo de pantalla.
-- `save_scores`: Guarda los puntajes del jugador.
-- `load_scores`: Carga los puntajes del jugador.
 - `reset_game`: Reinicia la pantalla del juego.
 - `create_piece`: Crea una nueva pieza aleatoria.
 - `draw_board`: Crea el tablero de juego.
