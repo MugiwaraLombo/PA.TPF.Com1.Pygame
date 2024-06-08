@@ -8,9 +8,9 @@ from utils import *
 
 class Tetris:
     def __init__(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("Proyecto: TETRIS")
+        pygame.init() #Inicializa pygame
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #Crea la pantalla de la app
+        pygame.display.set_caption("Proyecto: TETRIS") #Leyenda de la app
         self.clock = pygame.time.Clock()
         self.load_settings()
         self.paused = False
@@ -29,16 +29,22 @@ class Tetris:
             Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50))
         ]
 
+        self.background_buttons = [
+            Button("Fondo de pantalla 1", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)),
+            Button("Fondo de pantalla 2", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)),
+            Button("Fondo de pantalla 3", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50)),
+            Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100))
+        ]
+
     def load_settings(self):
-        if not os.path.exists(CONFIG_DIR):
-            os.makedirs(CONFIG_DIR)
-        if os.path.exists(SETTINGS_FILE):
-            with open(SETTINGS_FILE, "r") as file:
-                self.settings = json.load(file)
+        if not os.path.exists(CONFIG_DIR): #Consulta si existe el directorio definido en la variable "CONFIG_DIR"
+            os.makedirs(CONFIG_DIR) #Crea un directorio de forma recursiva.
+        if os.path.exists(SETTINGS_FILE): #Consulta si existe el archivo definido en la variable "SETTINGS_FILE"
+            with open(SETTINGS_FILE, "r") as file: #Abre el archivo y lo identifica como "file"
+                self.settings = json.load(file) #Carga al atributo "settings" los datos del archivo identificado como "file"
         else:
             self.settings = {
                 "resolution": (SCREEN_WIDTH, SCREEN_HEIGHT),
-                "fullscreen": False,
                 "background": None,
                 "key_bindings": {
                     "left": pygame.K_LEFT,
@@ -50,11 +56,11 @@ class Tetris:
                 }
             }
 
-    def save_settings(self):
+    def save_settings(self): #Guarda las configuraciones
         with open(SETTINGS_FILE, "w") as file:
             json.dump(self.settings, file)
 
-    def load_background(self):
+    def load_background(self): #Carga la imagen de fondo
         background_path = self.settings.get("background")
         if background_path and os.path.exists(background_path):
             self.bg_image = pygame.image.load(background_path)
@@ -83,34 +89,35 @@ class Tetris:
                     pygame.draw.rect(self.screen, GRAY, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_next_pieces(self):
+        font = pygame.font.Font(None, 24)
+        next_pieces_text = font.render("Next Pieces:", True, WHITE)
+        self.screen.blit(next_pieces_text, (SCREEN_WIDTH - 100, 40))
         for i, piece in enumerate(self.next_pieces):
             for y, row in enumerate(piece.shape):
                 for x, col in enumerate(row):
                     if col:
-                        font = pygame.font.Font(None, 24)
-                        next_pieces_text = font.render("Next Pieces:", True, WHITE)
-                        self.screen.blit(next_pieces_text, (SCREEN_WIDTH - 100, 40))
+                        pygame.draw.line(self.screen, GRAY, (BLOCK_SIZE * 10, 0), (BLOCK_SIZE * 10, SCREEN_HEIGHT), 5)
                         pygame.draw.rect(self.screen, piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_hold_piece(self):
+        font = pygame.font.Font(None, 24)
+        hold_pieces_text = font.render("Hold Piece:", True, WHITE)
+        self.screen.blit(hold_pieces_text, (SCREEN_WIDTH - 100, 300))
         if self.hold_piece:
             for y, row in enumerate(self.hold_piece.shape):
                 for x, col in enumerate(row):
                     if col:
-                        font = pygame.font.Font(None, 24)
-                        hold_pieces_text = font.render("Hold Piece:", True, WHITE)
-                        self.screen.blit(hold_pieces_text, (SCREEN_WIDTH - 100, 300))
                         pygame.draw.rect(self.screen, self.hold_piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
     def draw_score(self):
         font = pygame.font.Font(None, 24)
         score_text = font.render(f"Score: {self.score}", True, WHITE)
-        self.screen.blit(score_text, (SCREEN_WIDTH - 100, 400))
+        self.screen.blit(score_text, (SCREEN_WIDTH - 100, 450))
 
     def show_start_screen(self):
-        self.reset_game()  # Resetear el juego al mostrar la pantalla de inicio
+        self.reset_game()
         running = True
         while running:
             for event in pygame.event.get():
@@ -168,8 +175,40 @@ class Tetris:
             pygame.display.flip()
 
     def change_background(self):
-        # Implementar lógica para cambiar el fondo del juego
-        pass
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    if self.background_buttons[0].is_clicked(mouse_pos):
+                        self.settings["background"] = BACKGROUND_OPTION[0]
+                        self.load_background()
+                        self.save_settings()
+                    elif self.background_buttons[1].is_clicked(mouse_pos):
+                        self.settings["background"] = BACKGROUND_OPTION[1]
+                        self.load_background()
+                        self.save_settings()
+                    elif self.background_buttons[2].is_clicked(mouse_pos):
+                        self.settings["background"] = BACKGROUND_OPTION[2]
+                        self.load_background()
+                        self.save_settings()
+                    elif self.background_buttons[3].is_clicked(mouse_pos):
+                        running = False
+
+            self.screen.fill(BLACK)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
+            title_font = pygame.font.Font(None, 48)
+            title_text = title_font.render("Backgrounds", True, WHITE)
+            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 6))
+
+            for button in self.background_buttons:
+                button.draw(self.screen)
+
+            pygame.display.flip()
 
     def change_keys(self):
         # Implementar lógica para cambiar las teclas
@@ -250,7 +289,9 @@ class Tetris:
             self.draw_score()
 
             pygame.display.flip()
-            self.clock.tick(5) #altera la velocidad de caida de las piezas 1 es lento, 10 es rapido.
+            a = int(self.score)
+            x = (a / 1000) + 4
+            self.clock.tick(x) # Altera la velocidad de caida de las piezas en base al "score"
 
         self.show_game_over_screen()
 
