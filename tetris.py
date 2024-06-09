@@ -36,6 +36,16 @@ class Tetris:
             Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100))
         ]
 
+        self.key_buttons = [
+            Button("LEFT", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2 - 50)),
+            Button("RIGHT", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH - SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2 - 50)),
+            Button("DOWN", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2)),
+            Button("ROTATE", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH - SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2)),
+            Button("HOLD", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2 + 50)),
+            Button("PAUSE", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH - SCREEN_WIDTH // 4, SCREEN_HEIGHT // 2 + 50)),
+            Button("Volver", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 125))
+        ]
+
     def load_settings(self):
         if not os.path.exists(CONFIG_DIR): #Consulta si existe el directorio definido en la variable "CONFIG_DIR"
             os.makedirs(CONFIG_DIR) #Crea un directorio de forma recursiva.
@@ -65,7 +75,7 @@ class Tetris:
         if background_path and os.path.exists(background_path):
             self.bg_image = pygame.image.load(background_path)
 
-    def reset_game(self):
+    def reset_game(self): #Reinicia la pantalla de juego
         self.board = [[0] * BOARD_WIDTH for _ in range(BOARD_HEIGHT)]
         self.current_piece = self.create_piece()
         self.next_pieces = [self.create_piece() for _ in range(3)]
@@ -73,7 +83,7 @@ class Tetris:
         self.score = 0
         self.game_over = False
 
-    def create_piece(self):
+    def create_piece(self): #Crea las piezas de juego
         shape = random.choice(SHAPES)
         color = random.choice([WHITE, BLACK, (255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 255, 255)])
         piece = Piece(shape, color)
@@ -81,14 +91,14 @@ class Tetris:
         piece.y = 0
         return piece
 
-    def draw_board(self):
+    def draw_board(self): #Dibuja el tablero
         for y, row in enumerate(self.board):
             for x, col in enumerate(row):
                 if col:
                     pygame.draw.rect(self.screen, WHITE, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                     pygame.draw.rect(self.screen, GRAY, (x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
-    def draw_next_pieces(self):
+    def draw_next_pieces(self): #Dibuja las 3 siguientes piezas del juego
         font = pygame.font.Font(None, 24)
         next_pieces_text = font.render("Next Pieces:", True, WHITE)
         self.screen.blit(next_pieces_text, (SCREEN_WIDTH - 100, 40))
@@ -96,11 +106,11 @@ class Tetris:
             for y, row in enumerate(piece.shape):
                 for x, col in enumerate(row):
                     if col:
-                        pygame.draw.line(self.screen, GRAY, (BLOCK_SIZE * 10, 0), (BLOCK_SIZE * 10, SCREEN_HEIGHT), 5)
+                        pygame.draw.line(self.screen, GRAY, (BLOCK_SIZE * 10, 0), (BLOCK_SIZE * 10, SCREEN_HEIGHT), 5) #Dibuja una linea que separa la pantalla del tablero de la pantalla no jugable
                         pygame.draw.rect(self.screen, piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
-    def draw_hold_piece(self):
+    def draw_hold_piece(self): #Dibuja la pieza que esta almacenada
         font = pygame.font.Font(None, 24)
         hold_pieces_text = font.render("Hold Piece:", True, WHITE)
         self.screen.blit(hold_pieces_text, (SCREEN_WIDTH - 100, 300))
@@ -111,7 +121,7 @@ class Tetris:
                         pygame.draw.rect(self.screen, self.hold_piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 320 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
-    def draw_score(self):
+    def draw_score(self): #Dibuja el puntaje del jugador
         font = pygame.font.Font(None, 24)
         score_text = font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_text, (SCREEN_WIDTH - 100, 450))
@@ -211,8 +221,51 @@ class Tetris:
             pygame.display.flip()
 
     def change_keys(self):
-        # Implementar lógica para cambiar las teclas
-        pass
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = event.pos
+                    for button in self.key_buttons:
+                        if self.key_buttons[6].is_clicked(mouse_pos):
+                            running = False
+                        elif button.is_clicked(mouse_pos):
+                            self.change_key(button.text.lower())
+
+            self.screen.fill(BLACK)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
+            title_font = pygame.font.Font(None, 48)
+            title_text = title_font.render("Change Keys", True, WHITE)
+            self.screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 6))
+            for button in self.key_buttons:
+                button.draw(self.screen)
+
+            pygame.display.flip()
+
+    def change_key(self, key_name):
+        waiting_for_key = True
+        while waiting_for_key:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == pygame.KEYDOWN:
+                    self.settings["key_bindings"][key_name] = event.key
+                    self.save_settings()
+                    waiting_for_key = False
+
+            self.screen.fill(BLACK)
+            if self.bg_image:
+                self.screen.blit(self.bg_image, (0, 0))
+            message_font = pygame.font.Font(None, 24)
+            message_text = message_font.render("Oprima una tecla para cambiar el boton", True, WHITE)
+            self.screen.blit(message_text, (SCREEN_WIDTH // 2 - message_text.get_width() // 2, SCREEN_HEIGHT // 2))
+            pygame.display.flip()
+
 
     def handle_events(self):
         for event in pygame.event.get():

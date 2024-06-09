@@ -23,8 +23,9 @@ Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funci
 - `draw_score`: Muestra la puntuación actual.
 - `show_start_screen`: Muestra la pantalla de inicio.
 - `show_config_screen`: Muestra la pantalla de configuraciones.
-- `change_backgrounds`: *Hace falta implementar la logica para cambiar el fondo del juego*
-- `change_keys`: *Hace falta implementar la logica para cambiar las teclas del juego*
+- `change_backgrounds`: Funcion para cambiar el fondo de pantalla y mostrar la pantalla para configurarlo
+- `change_keys`: Muestra la pantalla para cambiar las teclas
+- `change_key`: Funcion para cambiar las teclas
 - `handle_events`: Maneja los eventos del teclado.
 - `update_board`: Actualiza el tablero después de que una pieza se ha colocado.
 - `clear_lines`: Limpia una linea cuando esta se completa.
@@ -72,6 +73,8 @@ Durante el juego, puedes usar las siguientes teclas:
 - Flecha arriba: Rota la pieza.
 - Espacio: Guarda la pieza para usarla luego. (si ya hay una pieza guardada la intercambia por la actual)
 - ESC: Pausa el juego.
+
+(Todas estas teclas son configurables y solo funcionan tal cual en el readme cuando no hay un archivo `settings.json` con una configuracion distinta)
 
 # Programacion Avanzada - Trabajo Practico Final - Comision 1 - Proyecto Tetris
 - Tema : Pygame
