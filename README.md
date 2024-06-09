@@ -6,12 +6,12 @@ Este proyecto es una implementación del clásico juego Tetris usando Pygame.
 
 ### 1. `main.py`
 
-Este es el punto de entrada del juego. Inicializa Pygame, crea una instancia de la clase `Tetris`, muestra la pantalla de inicio y ejecuta el bucle principal del juego.
+Este es el punto de entrada del juego. Crea una instancia de la clase `Tetris`, muestra la pantalla de inicio y ejecuta el bucle principal del juego.
 
 ### 2. `tetris.py`
 
 Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funciones principales incluyen:
-- `__init__`: Inicializa el estado del juego y define varios atributos.
+- `__init__`: Inicializa pygame, el estado del juego y define varios atributos.
 - `load_settings`: Carga las configuraciones del juego importadas desde utils.py.
 - `save_settings`: Guarda las configuraciones del juego.
 - `load_background`: Carga el fondo de pantalla.
@@ -63,7 +63,7 @@ Contiene constantes y configuraciones usadas en el juego, como colores, dimensio
 
 ## Ejecución del juego
 
-Para ejecutar el juego, simplemente corre el archivo `main.py`. Esto inicializará Pygame, creará una instancia del juego Tetris, mostrará la pantalla de inicio y comenzará el bucle principal del juego. 
+Para ejecutar el juego, simplemente corre el archivo `main.py`. Esto creará una instancia del juego Tetris, mostrará la pantalla de inicio y comenzará el bucle principal del juego. 
 
 Durante el juego, puedes usar las siguientes teclas:
 
