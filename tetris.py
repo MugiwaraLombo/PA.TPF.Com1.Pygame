@@ -9,6 +9,7 @@ from utils import *
 class Tetris:
     def __init__(self):
         pygame.init() #Inicializa pygame
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #Crea la pantalla de la app
         pygame.display.set_caption("Proyecto: TETRIS") #Leyenda de la app
         self.clock = pygame.time.Clock()
@@ -16,6 +17,7 @@ class Tetris:
         self.paused = False
         self.bg_image = None
         self.load_background()
+        self.play_music()
 
         self.start_buttons = [
             Button("Iniciar Juego", pygame.font.Font(None, 24), WHITE, (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 - 50)),
@@ -75,6 +77,10 @@ class Tetris:
         if background_path and os.path.exists(background_path):
             self.bg_image = pygame.image.load(background_path)
 
+    def play_music(self):
+        pygame.mixer.music.load(os.path.join("config", "Background.mp3"))  # Cargar el archivo de música
+        pygame.mixer.music.play(-1)
+
     def reset_game(self): #Reinicia la pantalla de juego
         self.board = [[0] * BOARD_WIDTH for _ in range(BOARD_HEIGHT)]
         self.current_piece = self.create_piece()
@@ -91,7 +97,8 @@ class Tetris:
         piece.y = 0
         return piece
 
-    def draw_board(self): #Dibuja el tablero
+    def draw_board(self):
+        pygame.draw.rect(self.screen, GRAY, (BOARD_WIDTH * BLOCK_SIZE, 0, SCREEN_WIDTH, SCREEN_HEIGHT)) #Dibuja el tablero
         for y, row in enumerate(self.board):
             for x, col in enumerate(row):
                 if col:
@@ -105,8 +112,7 @@ class Tetris:
         for i, piece in enumerate(self.next_pieces):
             for y, row in enumerate(piece.shape):
                 for x, col in enumerate(row):
-                    if col:
-                        pygame.draw.line(self.screen, GRAY, (BLOCK_SIZE * 10, 0), (BLOCK_SIZE * 10, SCREEN_HEIGHT), 5) #Dibuja una linea que separa la pantalla del tablero de la pantalla no jugable
+                    if col: #Dibuja una linea que separa la pantalla del tablero de la pantalla no jugable
                         pygame.draw.rect(self.screen, piece.color, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))
                         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH - 100 + x * BLOCK_SIZE, 70 + i * 80 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)
 
