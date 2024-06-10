@@ -1,7 +1,7 @@
 import os
 
 # Directorio para almacenar los archivos de configuración y puntajes
-CONFIG_DIR = "python/PA.TPF.Com1.Pygame/config"
+CONFIG_DIR = "config"
 SCORES_FILE = os.path.join(CONFIG_DIR, "scores.json")
 SETTINGS_FILE = os.path.join(CONFIG_DIR, "settings.json")
 
@@ -33,4 +33,4 @@ SHAPES = [
         ]
 
 #Opciones de background
-BACKGROUND_OPTION = ("python/PA.TPF.Com1.Pygame/config/bg1.jpg", "python/PA.TPF.Com1.Pygame/config/bg2.jpg", "python/PA.TPF.Com1.Pygame/config/bg3.jpg")
+BACKGROUND_OPTION = ("config/bg1.jpg", "config/bg2.jpg", "config/bg3.jpg")
