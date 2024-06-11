@@ -1,6 +1,6 @@
 # Tetris
 
-Este proyecto es una implementación del clásico juego Tetris usando Pygame.
+#### Este proyecto es una implementación del clásico juego Tetris tuilizando la libreria Pygame.
 
 ## Archivos del proyecto
 
@@ -8,13 +8,19 @@ Este proyecto es una implementación del clásico juego Tetris usando Pygame.
 
 Este es el punto de entrada del juego. Crea una instancia de la clase `Tetris`, muestra la pantalla de inicio y ejecuta el bucle principal del juego.
 
+Al descargar el repositorio abrirlo en un workspace apartado del resto para que se lean/generen bien los archivos establecidos en el codigo. 
+
+Abrir la terminal y escribir el comando *"pip install pygame"*, *"pip install os"* y *"pip install json"* en caso de que el juego siga sin andar.
+
 ### 2. `tetris.py`
 
-Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funciones principales incluyen:
+Contiene la clase `Tetris`, que maneja la lógica principal del juego. 
+Sus funciones son las siguientes:
 - `__init__`: Inicializa pygame, el estado del juego y define varios atributos.
 - `load_settings`: Carga las configuraciones del juego importadas desde utils.py.
 - `save_settings`: Guarda las configuraciones del juego.
 - `load_background`: Carga el fondo de pantalla.
+- `play music`: Reproduce en bucle la musica del juego.
 - `reset_game`: Reinicia la pantalla del juego.
 - `create_piece`: Crea una nueva pieza aleatoria.
 - `draw_board`: Crea el tablero de juego.
@@ -32,7 +38,7 @@ Contiene la clase `Tetris`, que maneja la lógica principal del juego. Sus funci
 - `handle_hold`: Almacena una pieza o la intercambia por una ya almacenada.
 - `run`: Ejecuta el bucle principal del juego.
 - `show_pause_screen`: Muestra la pantalla de pausa.
-- `show_game_over`: Muestra la pantalla de game over.
+- `show_game_over_screen`: Muestra la pantalla de game over.
 
 ### 3. `piece.py`
 
