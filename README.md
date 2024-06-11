@@ -1,6 +1,6 @@
 # Tetris
 
-#### Este proyecto es una implementación del clásico juego Tetris tuilizando la libreria Pygame.
+##### Este proyecto es una implementación del clásico juego Tetris tuilizando la libreria Pygame.
 
 ## Archivos del proyecto
 

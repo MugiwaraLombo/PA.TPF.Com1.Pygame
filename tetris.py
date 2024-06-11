@@ -8,8 +8,8 @@ from utils import *
 
 class Tetris:
     def __init__(self):
-        pygame.init() #Inicializa pygame
-        pygame.mixer.init() #Inicializa el modulo de sonido de pygame
+        pygame.init()
+        pygame.mixer.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #Crea la pantalla del juego
         pygame.display.set_caption("Proyecto: TETRIS") #Leyenda del del juego
         self.clock = pygame.time.Clock() #Velocidad de movimiento de las piezas
