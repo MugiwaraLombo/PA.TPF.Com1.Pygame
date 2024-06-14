@@ -1,8 +1,7 @@
 import os
 
-# Directorio para almacenar los archivos de configuración y puntajes
+# Directorio para almacenar los archivos de configuración
 CONFIG_DIR = "config"
-SCORES_FILE = os.path.join(CONFIG_DIR, "scores.json")
 SETTINGS_FILE = os.path.join(CONFIG_DIR, "settings.json")
 
 # Colores

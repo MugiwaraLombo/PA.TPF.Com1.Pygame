@@ -58,14 +58,14 @@ Define la clase `Button`, que representa un botón interactivo en la interfaz de
 
 ### 5. `utils.py`
 
-Contiene constantes y configuraciones usadas en el juego, como colores, dimensiones del tablero y de la pantalla, y rutas a archivos de configuración y puntuaciones.
+Contiene constantes y configuraciones usadas en el juego, como colores, dimensiones del tablero y de la pantalla, y rutas a archivos de configuración.
 
 ## Bibliotecas utilizadas
 
 - `pygame`: Biblioteca principal para la creación del juego, usada para manejar gráficos, eventos, y sonidos.
 - `random`: Para generar piezas aleatorias.
 - `os`: Para manejar rutas de archivos.
-- `json`: Para leer y escribir archivos de configuración y puntuaciones.
+- `json`: Para leer y escribir archivos de configuración.
 
 ## Ejecución del juego
 
